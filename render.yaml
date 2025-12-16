@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: uam-fly
+    env: static
+    staticPublishPath: ./public
+    buildCommand: ""
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+
