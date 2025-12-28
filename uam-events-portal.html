@@ -1,0 +1,2311 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>K-UAM 행사 정보 포털 | 세미나 · 컨퍼런스 · 전시회</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+    
+    :root {
+      --primary: #0f3460;
+      --secondary: #16213e;
+      --accent: #5e81f4;
+      --accent-light: #7c9dfc;
+      --gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      --gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+      --gradient-4: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+      --gradient-5: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+      --text-primary: #1a1a2e;
+      --text-secondary: #6c757d;
+      --bg-light: #f8fafc;
+      --card-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.8;
+      color: var(--text-primary);
+      background: var(--bg-light);
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    /* Hero Header */
+    header {
+      background: linear-gradient(135deg, rgba(15, 52, 96, 0.97) 0%, rgba(22, 33, 62, 0.97) 50%, rgba(94, 129, 244, 0.9) 100%);
+      color: #fff;
+      padding: 80px 40px;
+      border-radius: 24px;
+      margin-bottom: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(94, 129, 244, 0.3) 0%, transparent 70%);
+      animation: float 8s ease-in-out infinite;
+    }
+
+    header::after {
+      content: '';
+      position: absolute;
+      bottom: -30%;
+      left: -10%;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(246, 135, 179, 0.2) 0%, transparent 70%);
+      animation: float 6s ease-in-out infinite reverse;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      50% { transform: translate(30px, 20px) rotate(10deg); }
+    }
+
+    header h1 {
+      font-family: 'Space Grotesk', 'Noto Sans KR', sans-serif;
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      position: relative;
+      z-index: 1;
+    }
+
+    header h1 span {
+      background: var(--gradient-3);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    header p {
+      font-size: 1.15rem;
+      opacity: 0.9;
+      max-width: 700px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .header-stats {
+      display: flex;
+      gap: 40px;
+      margin-top: 35px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-number {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 2.5rem;
+      font-weight: 700;
+      display: block;
+      background: var(--gradient-3);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.8;
+    }
+
+    /* Search & Filter Bar */
+    .search-filter-bar {
+      background: #fff;
+      border-radius: 16px;
+      padding: 25px 30px;
+      margin-bottom: 30px;
+      box-shadow: var(--card-shadow);
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .search-box {
+      flex: 1;
+      min-width: 300px;
+      position: relative;
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 14px 20px 14px 50px;
+      border: 2px solid #e8ecef;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-family: inherit;
+      transition: all 0.3s ease;
+    }
+
+    .search-box input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(94, 129, 244, 0.1);
+    }
+
+    .search-box::before {
+      content: '🔍';
+      position: absolute;
+      left: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.1rem;
+    }
+
+    .filter-group {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      padding: 12px 24px;
+      background: var(--bg-light);
+      border: 2px solid transparent;
+      border-radius: 30px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+
+    .filter-btn:hover {
+      background: #fff;
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .filter-btn.active {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    /* Navigation Tabs */
+    .nav-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 30px;
+      flex-wrap: wrap;
+    }
+
+    .nav-tabs a {
+      padding: 12px 28px;
+      background: #fff;
+      color: var(--primary);
+      text-decoration: none;
+      border-radius: 30px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav-tabs a:hover, .nav-tabs a.active {
+      background: var(--accent);
+      color: #fff;
+      transform: translateY(-2px);
+    }
+
+    /* Timeline Section */
+    .timeline-section {
+      background: #fff;
+      border-radius: 20px;
+      padding: 40px;
+      margin-bottom: 30px;
+      box-shadow: var(--card-shadow);
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .section-title {
+      font-size: 1.6rem;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-title::before {
+      content: '';
+      width: 4px;
+      height: 30px;
+      background: var(--gradient-1);
+      border-radius: 2px;
+    }
+
+    .view-toggle {
+      display: flex;
+      gap: 8px;
+    }
+
+    .view-btn {
+      padding: 8px 16px;
+      background: var(--bg-light);
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
+
+    .view-btn.active {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    /* Event Cards Grid */
+    .events-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      gap: 25px;
+    }
+
+    .event-card {
+      background: #fff;
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+    }
+
+    .event-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+    }
+
+    .event-card-header {
+      padding: 25px 25px 0;
+      position: relative;
+    }
+
+    .event-type-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .event-type-badge.conference { background: rgba(102, 126, 234, 0.15); color: #667eea; }
+    .event-type-badge.seminar { background: rgba(67, 233, 123, 0.15); color: #2ecc71; }
+    .event-type-badge.exhibition { background: rgba(250, 112, 154, 0.15); color: #fa709a; }
+    .event-type-badge.summit { background: rgba(79, 172, 254, 0.15); color: #4facfe; }
+    .event-type-badge.workshop { background: rgba(245, 87, 108, 0.15); color: #f5576c; }
+
+    .event-date-badge {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: var(--gradient-1);
+      color: #fff;
+      padding: 12px 16px;
+      border-radius: 14px;
+      text-align: center;
+      min-width: 70px;
+    }
+
+    .event-date-badge .month {
+      font-size: 0.7rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      opacity: 0.9;
+    }
+
+    .event-date-badge .day {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .event-card-body {
+      padding: 20px 25px;
+    }
+
+    .event-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 12px;
+      line-height: 1.5;
+      padding-right: 80px;
+    }
+
+    .event-meta {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 15px;
+    }
+
+    .event-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+
+    .event-meta-item .icon {
+      width: 20px;
+      text-align: center;
+    }
+
+    .event-description {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      margin-bottom: 15px;
+    }
+
+    .event-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .event-tag {
+      padding: 4px 12px;
+      background: var(--bg-light);
+      border-radius: 15px;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+
+    .event-card-footer {
+      padding: 15px 25px 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .event-source {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+
+    .event-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-action {
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+      font-family: inherit;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-light);
+      transform: translateY(-2px);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 2px solid #e8ecef;
+      color: var(--text-secondary);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* Status Indicator */
+    .status-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    .status-indicator.upcoming {
+      background: rgba(67, 233, 123, 0.15);
+      color: #2ecc71;
+    }
+
+    .status-indicator.ongoing {
+      background: rgba(79, 172, 254, 0.15);
+      color: #4facfe;
+    }
+
+    .status-indicator.ended {
+      background: rgba(108, 117, 125, 0.15);
+      color: #6c757d;
+    }
+
+    .status-indicator::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    /* Calendar View */
+    .calendar-container {
+      display: none;
+      background: #fff;
+      border-radius: 20px;
+      padding: 30px;
+      margin-bottom: 30px;
+      box-shadow: var(--card-shadow);
+    }
+
+    .calendar-container.active {
+      display: block;
+    }
+
+    .calendar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+    }
+
+    .calendar-nav {
+      display: flex;
+      gap: 10px;
+    }
+
+    .calendar-nav button {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      border: none;
+      background: var(--bg-light);
+      cursor: pointer;
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+    }
+
+    .calendar-nav button:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .calendar-month-year {
+      font-size: 1.3rem;
+      font-weight: 600;
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 8px;
+    }
+
+    .calendar-day-header {
+      text-align: center;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      padding: 10px;
+    }
+
+    .calendar-day {
+      aspect-ratio: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 8px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .calendar-day:hover {
+      background: var(--bg-light);
+    }
+
+    .calendar-day.has-event {
+      background: rgba(94, 129, 244, 0.1);
+    }
+
+    .calendar-day.has-event::after {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: var(--accent);
+      border-radius: 50%;
+      position: absolute;
+      bottom: 8px;
+    }
+
+    .calendar-day.today {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .calendar-day.other-month {
+      color: #ccc;
+    }
+
+    /* Quick Links Section */
+    .quick-links-section {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .quick-link-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 25px;
+      box-shadow: var(--card-shadow);
+      transition: all 0.3s ease;
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .quick-link-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+    }
+
+    .quick-link-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+    }
+
+    .quick-link-card:nth-child(1) .quick-link-icon { background: var(--gradient-1); }
+    .quick-link-card:nth-child(2) .quick-link-icon { background: var(--gradient-3); }
+    .quick-link-card:nth-child(3) .quick-link-icon { background: var(--gradient-4); }
+    .quick-link-card:nth-child(4) .quick-link-icon { background: var(--gradient-5); }
+
+    .quick-link-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .quick-link-desc {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+    }
+
+    /* Newsletter Section */
+    .newsletter-section {
+      background: var(--gradient-1);
+      border-radius: 20px;
+      padding: 50px;
+      text-align: center;
+      color: #fff;
+      margin-bottom: 30px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .newsletter-section::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+    }
+
+    .newsletter-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .newsletter-desc {
+      font-size: 1rem;
+      opacity: 0.9;
+      margin-bottom: 30px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .newsletter-form {
+      display: flex;
+      gap: 15px;
+      max-width: 500px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .newsletter-form input {
+      flex: 1;
+      padding: 16px 24px;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-family: inherit;
+    }
+
+    .newsletter-form button {
+      padding: 16px 32px;
+      background: #fff;
+      color: #667eea;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+
+    .newsletter-form button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+
+    /* Footer */
+    footer {
+      background: var(--secondary);
+      color: #fff;
+      border-radius: 20px;
+      padding: 40px;
+      text-align: center;
+    }
+
+    footer p {
+      opacity: 0.8;
+      font-size: 0.9rem;
+    }
+
+    footer .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 20px;
+    }
+
+    footer .footer-links a {
+      color: #fff;
+      text-decoration: none;
+      opacity: 0.7;
+      transition: opacity 0.3s ease;
+    }
+
+    footer .footer-links a:hover {
+      opacity: 1;
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(5px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: #fff;
+      border-radius: 24px;
+      max-width: 700px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      animation: modalSlide 0.3s ease;
+    }
+
+    @keyframes modalSlide {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .modal-header {
+      padding: 30px;
+      border-bottom: 1px solid rgba(0,0,0,0.05);
+      position: relative;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      border: none;
+      background: var(--bg-light);
+      cursor: pointer;
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+    }
+
+    .modal-close:hover {
+      background: #fee2e2;
+      color: #ef4444;
+    }
+
+    .modal-body {
+      padding: 30px;
+    }
+
+    .modal-footer {
+      padding: 20px 30px;
+      border-top: 1px solid rgba(0,0,0,0.05);
+      display: flex;
+      justify-content: flex-end;
+      gap: 15px;
+    }
+
+    /* Loading Animation */
+    .loading-spinner {
+      display: none;
+      width: 40px;
+      height: 40px;
+      border: 3px solid var(--bg-light);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 50px auto;
+    }
+
+    .loading-spinner.active {
+      display: block;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      header {
+        padding: 50px 25px;
+      }
+
+      header h1 {
+        font-size: 2rem;
+      }
+
+      .header-stats {
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+
+      .search-filter-bar {
+        flex-direction: column;
+      }
+
+      .search-box {
+        min-width: 100%;
+      }
+
+      .events-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .newsletter-form {
+        flex-direction: column;
+      }
+
+      .event-title {
+        padding-right: 0;
+      }
+
+      .event-date-badge {
+        position: relative;
+        top: 0;
+        right: 0;
+        margin-top: 15px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 16px;
+      }
+
+      .event-date-badge .day {
+        font-size: 1.2rem;
+      }
+    }
+
+    /* Animation for cards */
+    .event-card {
+      animation: fadeInUp 0.5s ease forwards;
+      opacity: 0;
+    }
+
+    .event-card:nth-child(1) { animation-delay: 0.1s; }
+    .event-card:nth-child(2) { animation-delay: 0.2s; }
+    .event-card:nth-child(3) { animation-delay: 0.3s; }
+    .event-card:nth-child(4) { animation-delay: 0.4s; }
+    .event-card:nth-child(5) { animation-delay: 0.5s; }
+    .event-card:nth-child(6) { animation-delay: 0.6s; }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* International badge */
+    .international-badge {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      background: linear-gradient(135deg, #ff6b6b, #feca57);
+      color: #fff;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      z-index: 5;
+    }
+
+    /* Year selector */
+    .year-selector {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .year-selector select {
+      padding: 10px 20px;
+      border: 2px solid #e8ecef;
+      border-radius: 10px;
+      font-size: 1rem;
+      font-family: inherit;
+      cursor: pointer;
+      background: #fff;
+    }
+
+    .year-selector select:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    /* Refresh Button */
+    .refresh-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    }
+
+    .refresh-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    .refresh-btn:active {
+      transform: translateY(0);
+    }
+
+    .refresh-btn.loading {
+      pointer-events: none;
+      opacity: 0.8;
+    }
+
+    .refresh-btn .spinner {
+      display: none;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    .refresh-btn.loading .spinner {
+      display: block;
+    }
+
+    .refresh-btn.loading .refresh-icon {
+      display: none;
+    }
+
+    /* Last Updated Info */
+    .last-updated {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* New Event Badge */
+    .new-badge {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      background: linear-gradient(135deg, #00c853, #64dd17);
+      color: #fff;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      z-index: 5;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.8; transform: scale(1.05); }
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: #fff;
+      border-radius: 12px;
+      padding: 16px 24px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 1001;
+    }
+
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    .toast.success {
+      border-left: 4px solid #00c853;
+    }
+
+    .toast.info {
+      border-left: 4px solid #4facfe;
+    }
+
+    .toast-icon {
+      font-size: 1.5rem;
+    }
+
+    .toast-content {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .toast-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--text-primary);
+    }
+
+    .toast-message {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header>
+      <h1>🚁 K-UAM <span>행사 정보 포털</span></h1>
+      <p>도심항공모빌리티(UAM) 관련 세미나, 컨퍼런스, 전시회, 학술대회 등 다양한 행사 정보를 한 곳에서 확인하세요. 국내외 주요 행사 일정과 상세 정보를 실시간으로 제공합니다.</p>
+      <div class="header-stats">
+        <div class="stat-item">
+          <span class="stat-number" id="totalEvents">24</span>
+          <span class="stat-label">전체 행사</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number" id="upcomingEvents">12</span>
+          <span class="stat-label">예정 행사</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number" id="countries">8</span>
+          <span class="stat-label">개최 국가</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Quick Links -->
+    <div class="quick-links-section">
+      <a href="#conferences" class="quick-link-card">
+        <div class="quick-link-icon">🎤</div>
+        <div class="quick-link-title">컨퍼런스</div>
+        <div class="quick-link-desc">국내외 주요 UAM 컨퍼런스 및 포럼 일정</div>
+      </a>
+      <a href="#seminars" class="quick-link-card">
+        <div class="quick-link-icon">📚</div>
+        <div class="quick-link-title">세미나</div>
+        <div class="quick-link-desc">기술, 정책, 사업화 관련 전문 세미나</div>
+      </a>
+      <a href="#exhibitions" class="quick-link-card">
+        <div class="quick-link-icon">✈️</div>
+        <div class="quick-link-title">전시회</div>
+        <div class="quick-link-desc">에어쇼, 박람회 등 UAM 전시 행사</div>
+      </a>
+      <a href="#academic" class="quick-link-card">
+        <div class="quick-link-icon">🎓</div>
+        <div class="quick-link-title">학술대회</div>
+        <div class="quick-link-desc">학회 및 연구 발표 학술 행사</div>
+      </a>
+    </div>
+
+    <!-- Search & Filter -->
+    <div class="search-filter-bar">
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="행사명, 장소, 주최기관 검색...">
+      </div>
+      <div class="filter-group">
+        <button class="filter-btn active" data-filter="all">전체</button>
+        <button class="filter-btn" data-filter="conference">컨퍼런스</button>
+        <button class="filter-btn" data-filter="seminar">세미나</button>
+        <button class="filter-btn" data-filter="exhibition">전시회</button>
+        <button class="filter-btn" data-filter="summit">서밋</button>
+        <button class="filter-btn" data-filter="workshop">워크숍</button>
+      </div>
+      <div class="year-selector">
+        <select id="yearFilter">
+          <option value="all">모든 연도</option>
+          <option value="2026" selected>2026년</option>
+          <option value="2025">2025년</option>
+          <option value="2024">2024년</option>
+        </select>
+      </div>
+      <button class="refresh-btn" id="refreshBtn" onclick="refreshEvents()">
+        <span class="refresh-icon">🔄</span>
+        <span class="spinner"></span>
+        행사 정보 갱신
+      </button>
+      <div class="last-updated">
+        <span>📅 최종 업데이트:</span>
+        <span id="lastUpdated">2025-12-22</span>
+      </div>
+    </div>
+
+    <!-- Events Section -->
+    <div class="timeline-section">
+      <div class="section-header">
+        <h2 class="section-title">📅 예정된 행사</h2>
+        <div class="view-toggle">
+          <button class="view-btn active" data-view="grid">🗂️ 카드</button>
+          <button class="view-btn" data-view="calendar">📆 캘린더</button>
+        </div>
+      </div>
+
+      <div class="loading-spinner" id="loadingSpinner"></div>
+
+      <!-- Grid View -->
+      <div class="events-grid" id="eventsGrid">
+        
+        <!-- ========== 2026년 예정 행사 ========== -->
+        
+        <!-- Event Card - CES 2026 -->
+        <div class="event-card" data-type="exhibition" data-year="2026" data-region="international" data-date="2026-01-06">
+          <span class="new-badge">✨ 예정</span>
+          <span class="international-badge" style="left: 70px;">🌍 국제행사</span>
+          <div class="event-card-header">
+            <span class="event-type-badge exhibition">전시회</span>
+            <div class="event-date-badge">
+              <span class="month">JAN</span>
+              <span class="day">6-9</span>
+            </div>
+          </div>
+          <div class="event-card-body">
+            <h3 class="event-title">CES 2026 - 에어택시 & eVTOL 전시</h3>
+            <div class="event-meta">
+              <div class="event-meta-item">
+                <span class="icon">📍</span>
+                <span>Las Vegas, USA</span>
+              </div>
+              <div class="event-meta-item">
+                <span class="icon">🏢</span>
+                <span>CTA (Consumer Technology Association)</span>
+              </div>
+            </div>
+            <p class="event-description">세계 최대 소비자 가전 박람회. UAM 기업들의 상용화 기체 및 서비스 발표가 예정되어 있습니다.</p>
+            <div class="event-tags">
+              <span class="event-tag">CES</span>
+              <span class="event-tag">에어택시</span>
+              <span class="event-tag">상용화</span>
+            </div>
+          </div>
+          <div class="event-card-footer">
+            <span class="status-indicator upcoming">예정</span>
+            <div class="event-actions">
+              <button class="btn-action btn-outline" onclick="addToCalendar(this)">📅 일정추가</button>
+              <button class="btn-action btn-primary" onclick="openEventDetail('ces-2026')">자세히</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Event Card - Singapore Airshow 2026 -->
+        <div class="event-card" data-type="exhibition" data-year="2026" data-region="international" data-date="2026-02-10">
+          <span class="international-badge">🌍 국제행사</span>
+          <div class="event-card-header">
+            <span class="event-type-badge exhibition">전시회</span>
+            <div class="event-date-badge">
+              <span class="month">FEB</span>
+              <span class="day">10-15</span>
+            </div>
+          </div>
+          <div class="event-card-body">
+            <h3 class="event-title">Singapore Airshow 2026</h3>
+            <div class="event-meta">
+              <div class="event-meta-item">
+                <span class="icon">📍</span>
+                <span>Changi Exhibition Centre, Singapore</span>
+              </div>
+              <div class="event-meta-item">
+                <span class="icon">🏢</span>
+                <span>Experia Events</span>
+              </div>
+            </div>
+            <p class="event-description">아시아 최대 항공우주 전시회. 2026년 상용 서비스 개시를 앞둔 eVTOL 기체들의 전시가 예정됩니다.</p>
+            <div class="event-tags">
+              <span class="event-tag">에어쇼</span>
+              <span class="event-tag">아시아</span>
+              <span class="event-tag">AAM</span>
+            </div>
+          </div>
+          <div class="event-card-footer">
+            <span class="status-indicator upcoming">예정</span>
+            <div class="event-actions">
+              <button class="btn-action btn-outline" onclick="addToCalendar(this)">📅 일정추가</button>
+              <button class="btn-action btn-primary" onclick="openEventDetail('singapore-airshow-2026')">자세히</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ========== 2025년 종료 행사 (최신순) ========== -->
+
+        <!-- Event Card - K-UAM 국제 콘퍼런스 -->
+        <div class="event-card" data-type="conference" data-year="2025" data-region="international" data-date="2025-11-19">
+          <span class="new-badge" style="background: linear-gradient(135deg, #667eea, #764ba2);">🏆 최신</span>
+          <span class="international-badge" style="left: 70px;">🌍 국제행사</span>
+          <div class="event-card-header">
+            <span class="event-type-badge conference">컨퍼런스</span>
+            <div class="event-date-badge">
+              <span class="month">NOV</span>
+              <span class="day">19</span>
+            </div>
+          </div>
+          <div class="event-card-body">
+            <h3 class="event-title">2025 K-UAM 국제 콘퍼런스</h3>
+            <div class="event-meta">
+              <div class="event-meta-item">
+                <span class="icon">📍</span>
+                <span>인천 송도 컨벤시아</span>
+              </div>
+              <div class="event-meta-item">
+                <span class="icon">🏢</span>
+                <span>국토교통부, 항공안전기술원</span>
+              </div>
+            </div>
+            <p class="event-description">영국 교통부, 미국 FAA, 캐나다 CRIAQ, 네덜란드 NLR 등 7개국 10개 이상의 기관이 참여한 역대 최대 규모 국제 콘퍼런스.</p>
+            <div class="event-tags">
+              <span class="event-tag">국제협력</span>
+              <span class="event-tag">K-UAM</span>
+              <span class="event-tag">FAA</span>
+            </div>
+          </div>
+          <div class="event-card-footer">
+            <span class="status-indicator ended">종료</span>
+            <div class="event-actions">
+              <button class="btn-action btn-outline" onclick="addToCalendar(this)">📅 일정추가</button>
+              <button class="btn-action btn-primary" onclick="openEventDetail('kuam-intl-2025')">자세히</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Event Card - CoMotion LA 2025 -->
+        <div class="event-card" data-type="summit" data-year="2025" data-region="international" data-date="2025-11-12">
+          <span class="international-badge">🌍 국제행사</span>
+          <div class="event-card-header">
+            <span class="event-type-badge summit">서밋</span>
+            <div class="event-date-badge">
+              <span class="month">NOV</span>
+              <span class="day">12-14</span>
+            </div>
+          </div>
+          <div class="event-card-body">
+            <h3 class="event-title">CoMotion LA 2025 (AAM Summit)</h3>
+            <div class="event-meta">
+              <div class="event-meta-item">
+                <span class="icon">📍</span>
+                <span>Los Angeles, USA</span>
+              </div>
+              <div class="event-meta-item">
+                <span class="icon">🏢</span>
+                <span>CoMotion</span>
+              </div>
+            </div>
+            <p class="event-description">미래 모빌리티와 AAM(Advanced Air Mobility) 분야 글로벌 리더들이 모이는 서밋.</p>
+            <div class="event-tags">
+              <span class="event-tag">AAM</span>
+              <span class="event-tag">모빌리티</span>
+              <span class="event-tag">네트워킹</span>
+            </div>
+          </div>
+          <div class="event-card-footer">
+            <span class="status-indicator ended">종료</span>
+            <div class="event-actions">
+              <button class="btn-action btn-outline" onclick="addToCalendar(this)">📅 일정추가</button>
+              <button class="btn-action btn-primary" onclick="openEventDetail('comotion-2025')">자세히</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Event Card - ADEX 2025 -->
+        <div class="event-card" data-type="exhibition" data-year="2025" data-region="international" data-date="2025-10-21">
+          <span class="international-badge">🌍 국제행사</span>
+          <div class="event-card-header">
+            <span class="event-type-badge exhibition">전시회</span>
+            <div class="event-date-badge">
+              <span class="month">OCT</span>
+              <span class="day">21-26</span>
+            </div>
+          </div>
+          <div class="event-card-body">
+            <h3 class="event-title">서울 ADEX 2025 (서울국제항공우주및방위산업전시회)</h3>
+            <div class="event-meta">
+              <div class="event-meta-item">
+                <span class="icon">📍</span>
+                <span>서울공항, 성남</span>
+              </div>
+              <div class="event-meta-item">
+                <span class="icon">🏢</span>
+                <span>국방부, 산업통상자원부</span>
+              </div>
+            </div>
+            <p class="event-description">아시아 최대 규모 항공우주 전시회. UAM 및 eVTOL 기체 전시 및 비행 시연이 진행되었습니다.</p>
+            <div class="event-tags">
+              <span class="event-tag">ADEX</span>
+              <span class="event-tag">방산</span>
+              <span class="event-tag">비행시연</span>
+            </div>
+          </div>
+          <div class="event-card-footer">
+            <span class="status-indicator ended">종료</span>
+            <div class="event-actions">
+              <button class="btn-action btn-outline" onclick="addToCalendar(this)">📅 일정추가</button>
+              <button class="btn-action btn-primary" onclick="openEventDetail('adex-2025')">자세히</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Event Card - NBAA-BACE 2025 -->
+        <div class="event-card" data-type="exhibition" data-year="2025" data-region="international" data-date="2025-10-14">
+          <span class="international-badge">🌍 국제행사</span>
+          <div class="event-card-header">
+            <span class="event-type-badge exhibition">전시회</span>
+            <div class="event-date-badge">
+              <span class="month">OCT</span>
+              <span class="day">14-16</span>
+            </div>
+          </div>
+          <div class="event-card-body">
+            <h3 class="event-title">NBAA-BACE 2025 (비즈니스 항공 컨벤션)</h3>
+            <div class="event-meta">
+              <div class="event-meta-item">
+                <span class="icon">📍</span>
+                <span>Las Vegas, Nevada, USA</span>
+              </div>
+              <div class="event-meta-item">
+                <span class="icon">🏢</span>
+                <span>NBAA (National Business Aviation Association)</span>
+              </div>
+            </div>
+            <p class="event-description">북미 최대 비즈니스 항공 전시회. AAM/UAM 분야가 핵심 주제로 다뤄졌습니다.</p>
+            <div class="event-tags">
+              <span class="event-tag">비즈니스항공</span>
+              <span class="event-tag">AAM</span>
+              <span class="event-tag">네트워킹</span>
+            </div>
+          </div>
+          <div class="event-card-footer">
+            <span class="status-indicator ended">종료</span>
+            <div class="event-actions">
+              <button class="btn-action btn-outline" onclick="addToCalendar(this)">📅 일정추가</button>
+              <button class="btn-action btn-primary" onclick="openEventDetail('nbaa-bace-2025')">자세히</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Event Card - K-UAM 그랜드 챌린지 -->
+        <div class="event-card" data-type="exhibition" data-year="2025" data-region="korea" data-date="2025-09-15">
+          <div class="event-card-header">
+            <span class="event-type-badge exhibition">전시회</span>
+            <div class="event-date-badge">
+              <span class="month">SEP</span>
+              <span class="day">1-30</span>
+            </div>
+          </div>
+          <div class="event-card-body">
+            <h3 class="event-title">K-UAM 그랜드 챌린지 2025</h3>
+            <div class="event-meta">
+              <div class="event-meta-item">
+                <span class="icon">📍</span>
+                <span>전남 고흥 국가종합비행성능시험장</span>
+              </div>
+              <div class="event-meta-item">
+                <span class="icon">🏢</span>
+                <span>국토교통부, 한국교통안전공단</span>
+              </div>
+            </div>
+            <p class="event-description">UAM 실증사업으로 eVTOL 기체의 실제 비행 시연과 운항 검증이 진행되었습니다.</p>
+            <div class="event-tags">
+              <span class="event-tag">실증비행</span>
+              <span class="event-tag">그랜드챌린지</span>
+              <span class="event-tag">고흥</span>
+            </div>
+          </div>
+          <div class="event-card-footer">
+            <span class="status-indicator ended">종료</span>
+            <div class="event-actions">
+              <button class="btn-action btn-outline" onclick="addToCalendar(this)">📅 일정추가</button>
+              <button class="btn-action btn-primary" onclick="openEventDetail('kuam-grand-challenge')">자세히</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Event Card - 제3차 UAM 안전·인증기술 세미나 -->
+        <div class="event-card" data-type="conference" data-year="2025" data-region="korea" data-date="2025-09-18">
+          <div class="event-card-header">
+            <span class="event-type-badge conference">컨퍼런스</span>
+            <div class="event-date-badge">
+              <span class="month">SEP</span>
+              <span class="day">18</span>
+            </div>
+          </div>
+          <div class="event-card-body">
+            <h3 class="event-title">제3차 UAM 안전·인증기술 연속 세미나</h3>
+            <div class="event-meta">
+              <div class="event-meta-item">
+                <span class="icon">📍</span>
+                <span>휘닉스 아일랜드 제주</span>
+              </div>
+              <div class="event-meta-item">
+                <span class="icon">🏢</span>
+                <span>항공우주시스템공학회</span>
+              </div>
+            </div>
+            <p class="event-description">항공 AI 안전기술 동향, eVTOL 프로펠러 인증 기준 연구 등 최신 연구 성과 발표.</p>
+            <div class="event-tags">
+              <span class="event-tag">AI</span>
+              <span class="event-tag">프로펠러</span>
+              <span class="event-tag">학술대회</span>
+            </div>
+          </div>
+          <div class="event-card-footer">
+            <span class="status-indicator ended">종료</span>
+            <div class="event-actions">
+              <button class="btn-action btn-outline" onclick="addToCalendar(this)">📅 일정추가</button>
+              <button class="btn-action btn-primary" onclick="openEventDetail('sase-2025')">자세히</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Event Card - 제1차 UAM 안전·인증 기술 세미나 -->
+        <div class="event-card" data-type="seminar" data-year="2025" data-region="korea" data-date="2025-07-31">
+          <div class="event-card-header">
+            <span class="event-type-badge seminar">세미나</span>
+            <div class="event-date-badge">
+              <span class="month">JUL</span>
+              <span class="day">31</span>
+            </div>
+          </div>
+          <div class="event-card-body">
+            <h3 class="event-title">제1차 UAM 안전·인증 기술 연속 세미나</h3>
+            <div class="event-meta">
+              <div class="event-meta-item">
+                <span class="icon">📍</span>
+                <span>국립항공박물관 대강당, 서울</span>
+              </div>
+              <div class="event-meta-item">
+                <span class="icon">🏢</span>
+                <span>항공안전기술원, 한국항공대학교</span>
+              </div>
+            </div>
+            <p class="event-description">UAM 국가전략기술사업단 주관, eVTOL 인증 기준 및 안전 기술 동향에 대한 전문 세미나.</p>
+            <div class="event-tags">
+              <span class="event-tag">인증</span>
+              <span class="event-tag">안전기술</span>
+              <span class="event-tag">국가전략사업</span>
+            </div>
+          </div>
+          <div class="event-card-footer">
+            <span class="status-indicator ended">종료</span>
+            <div class="event-actions">
+              <button class="btn-action btn-outline" onclick="addToCalendar(this)">📅 일정추가</button>
+              <button class="btn-action btn-primary" onclick="openEventDetail('uam-safety-1')">자세히</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Event Card - Paris Air Show 2025 -->
+        <div class="event-card" data-type="exhibition" data-year="2025" data-region="international" data-date="2025-06-16">
+          <span class="international-badge">🌍 국제행사</span>
+          <div class="event-card-header">
+            <span class="event-type-badge exhibition">전시회</span>
+            <div class="event-date-badge">
+              <span class="month">JUN</span>
+              <span class="day">16-22</span>
+            </div>
+          </div>
+          <div class="event-card-body">
+            <h3 class="event-title">Paris Air Show 2025 (파리 에어쇼)</h3>
+            <div class="event-meta">
+              <div class="event-meta-item">
+                <span class="icon">📍</span>
+                <span>Le Bourget, Paris, France</span>
+              </div>
+              <div class="event-meta-item">
+                <span class="icon">🏢</span>
+                <span>SIAE (국제항공우주전시회)</span>
+              </div>
+            </div>
+            <p class="event-description">세계 최대 항공우주 박람회. eVTOL 및 AAM 관련 최신 기술과 기체들이 전시되었습니다.</p>
+            <div class="event-tags">
+              <span class="event-tag">eVTOL</span>
+              <span class="event-tag">AAM</span>
+              <span class="event-tag">항공우주</span>
+            </div>
+          </div>
+          <div class="event-card-footer">
+            <span class="status-indicator ended">종료</span>
+            <div class="event-actions">
+              <button class="btn-action btn-outline" onclick="addToCalendar(this)">📅 일정추가</button>
+              <button class="btn-action btn-primary" onclick="openEventDetail('paris-airshow')">자세히</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Event Card - AUVSI XPONENTIAL 2025 -->
+        <div class="event-card" data-type="conference" data-year="2025" data-region="international" data-date="2025-04-28">
+          <span class="international-badge">🌍 국제행사</span>
+          <div class="event-card-header">
+            <span class="event-type-badge conference">컨퍼런스</span>
+            <div class="event-date-badge">
+              <span class="month">APR</span>
+              <span class="day">28-30</span>
+            </div>
+          </div>
+          <div class="event-card-body">
+            <h3 class="event-title">AUVSI XPONENTIAL 2025</h3>
+            <div class="event-meta">
+              <div class="event-meta-item">
+                <span class="icon">📍</span>
+                <span>Houston, Texas, USA</span>
+              </div>
+              <div class="event-meta-item">
+                <span class="icon">🏢</span>
+                <span>AUVSI (무인시스템국제협회)</span>
+              </div>
+            </div>
+            <p class="event-description">세계 최대 무인시스템 및 자율기술 컨퍼런스. AAM/UAM 트랙이 주요 세션으로 운영되었습니다.</p>
+            <div class="event-tags">
+              <span class="event-tag">무인시스템</span>
+              <span class="event-tag">자율비행</span>
+              <span class="event-tag">AAM</span>
+            </div>
+          </div>
+          <div class="event-card-footer">
+            <span class="status-indicator ended">종료</span>
+            <div class="event-actions">
+              <button class="btn-action btn-outline" onclick="addToCalendar(this)">📅 일정추가</button>
+              <button class="btn-action btn-primary" onclick="openEventDetail('auvsi-2025')">자세히</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Event Card - 한국항공우주학회 춘계학술대회 -->
+        <div class="event-card" data-type="conference" data-year="2025" data-region="korea" data-date="2025-04-16">
+          <div class="event-card-header">
+            <span class="event-type-badge conference">컨퍼런스</span>
+            <div class="event-date-badge">
+              <span class="month">APR</span>
+              <span class="day">16-18</span>
+            </div>
+          </div>
+          <div class="event-card-body">
+            <h3 class="event-title">한국항공우주학회 춘계학술대회 2025</h3>
+            <div class="event-meta">
+              <div class="event-meta-item">
+                <span class="icon">📍</span>
+                <span>제주 국제컨벤션센터</span>
+              </div>
+              <div class="event-meta-item">
+                <span class="icon">🏢</span>
+                <span>한국항공우주학회</span>
+              </div>
+            </div>
+            <p class="event-description">UAM/eVTOL 관련 최신 연구 논문 발표 및 기술 세션이 진행된 국내 최대 항공우주 학술대회.</p>
+            <div class="event-tags">
+              <span class="event-tag">학술대회</span>
+              <span class="event-tag">연구발표</span>
+              <span class="event-tag">항공우주</span>
+            </div>
+          </div>
+          <div class="event-card-footer">
+            <span class="status-indicator ended">종료</span>
+            <div class="event-actions">
+              <button class="btn-action btn-outline" onclick="addToCalendar(this)">📅 일정추가</button>
+              <button class="btn-action btn-primary" onclick="openEventDetail('ksas-spring-2025')">자세히</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Event Card - AAM Reality Index Summit Europe 2025 -->
+        <div class="event-card" data-type="summit" data-year="2025" data-region="international" data-date="2025-04-08">
+          <span class="international-badge">🌍 국제행사</span>
+          <div class="event-card-header">
+            <span class="event-type-badge summit">서밋</span>
+            <div class="event-date-badge">
+              <span class="month">APR</span>
+              <span class="day">8-10</span>
+            </div>
+          </div>
+          <div class="event-card-body">
+            <h3 class="event-title">AAM Reality Index Summit Europe 2025</h3>
+            <div class="event-meta">
+              <div class="event-meta-item">
+                <span class="icon">📍</span>
+                <span>Munich, Germany</span>
+              </div>
+              <div class="event-meta-item">
+                <span class="icon">🏢</span>
+                <span>SMG Events</span>
+              </div>
+            </div>
+            <p class="event-description">유럽 AAM 산업 리더들의 네트워킹 및 시장 동향 분석 서밋.</p>
+            <div class="event-tags">
+              <span class="event-tag">유럽</span>
+              <span class="event-tag">네트워킹</span>
+              <span class="event-tag">시장분석</span>
+            </div>
+          </div>
+          <div class="event-card-footer">
+            <span class="status-indicator ended">종료</span>
+            <div class="event-actions">
+              <button class="btn-action btn-outline" onclick="addToCalendar(this)">📅 일정추가</button>
+              <button class="btn-action btn-primary" onclick="openEventDetail('aam-europe-2025')">자세히</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Event Card 12 - 한국 -->
+        <div class="event-card" data-type="conference" data-year="2025" data-region="korea">
+          <div class="event-card-header">
+            <span class="event-type-badge conference">컨퍼런스</span>
+            <div class="event-date-badge">
+              <span class="month">AUG</span>
+              <span class="day">25-27</span>
+            </div>
+          </div>
+          <div class="event-card-body">
+            <h3 class="event-title">2025 K-UAM 산업발전 컨퍼런스</h3>
+            <div class="event-meta">
+              <div class="event-meta-item">
+                <span class="icon">📍</span>
+                <span>인천 송도컨벤시아</span>
+              </div>
+              <div class="event-meta-item">
+                <span class="icon">🏢</span>
+                <span>국토교통부, 인천광역시</span>
+              </div>
+            </div>
+            <p class="event-description">K-UAM 그랜드 챌린지, 상용화 로드맵, 인프라 구축 현황 등 종합 컨퍼런스.</p>
+            <div class="event-tags">
+              <span class="event-tag">K-UAM</span>
+              <span class="event-tag">그랜드챌린지</span>
+              <span class="event-tag">로드맵</span>
+            </div>
+          </div>
+          <div class="event-card-footer">
+            <span class="status-indicator upcoming">예정</span>
+            <div class="event-actions">
+              <button class="btn-action btn-outline" onclick="addToCalendar(this)">📅 일정추가</button>
+              <button class="btn-action btn-primary" onclick="openEventDetail('kuam-2025')">자세히</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Calendar View (Hidden by default) -->
+      <div class="calendar-container" id="calendarView">
+        <div class="calendar-header">
+          <button class="calendar-nav" onclick="changeMonth(-1)">◀</button>
+          <span class="calendar-month-year" id="calendarTitle">2025년 1월</span>
+          <button class="calendar-nav" onclick="changeMonth(1)">▶</button>
+        </div>
+        <div class="calendar-grid" id="calendarGrid">
+          <!-- Calendar will be generated by JavaScript -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Newsletter Section -->
+    <div class="newsletter-section">
+      <h2 class="newsletter-title">📬 UAM 행사 소식 받기</h2>
+      <p class="newsletter-desc">새로운 UAM 행사 정보와 업데이트를 이메일로 받아보세요.</p>
+      <form class="newsletter-form" onsubmit="subscribeNewsletter(event)">
+        <input type="email" placeholder="이메일 주소를 입력하세요" required>
+        <button type="submit">구독하기</button>
+      </form>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <p>© 2025 K-UAM 행사 정보 포털 | 도심항공모빌리티 산업 발전을 위한 정보 플랫폼</p>
+      <div class="footer-links">
+        <a href="#">이용약관</a>
+        <a href="#">개인정보처리방침</a>
+        <a href="#">문의하기</a>
+        <a href="uam-aircraft-research-standalone_v2.html">UAM 항공기 정보</a>
+      </div>
+    </footer>
+  </div>
+
+  <!-- Event Detail Modal -->
+  <div class="modal-overlay" id="eventModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button class="modal-close" onclick="closeModal()">✕</button>
+        <span class="event-type-badge conference" id="modalBadge">컨퍼런스</span>
+        <h2 id="modalTitle" style="margin-top: 15px; font-size: 1.5rem;">행사 제목</h2>
+      </div>
+      <div class="modal-body">
+        <div class="event-meta" style="margin-bottom: 25px;">
+          <div class="event-meta-item">
+            <span class="icon">📅</span>
+            <span id="modalDate">날짜 정보</span>
+          </div>
+          <div class="event-meta-item">
+            <span class="icon">📍</span>
+            <span id="modalLocation">장소 정보</span>
+          </div>
+          <div class="event-meta-item">
+            <span class="icon">🏢</span>
+            <span id="modalOrganizer">주최 기관</span>
+          </div>
+          <div class="event-meta-item">
+            <span class="icon">🌐</span>
+            <a href="#" id="modalWebsite" target="_blank" style="color: var(--accent);">공식 웹사이트</a>
+          </div>
+        </div>
+        <h3 style="margin-bottom: 15px; color: var(--primary);">행사 소개</h3>
+        <p id="modalDescription" style="color: var(--text-secondary); line-height: 1.8;">상세 설명</p>
+        
+        <h3 style="margin: 25px 0 15px; color: var(--primary);">주요 프로그램</h3>
+        <ul id="modalProgram" style="color: var(--text-secondary); line-height: 2; padding-left: 20px;">
+          <li>프로그램 1</li>
+          <li>프로그램 2</li>
+        </ul>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-action btn-outline" onclick="closeModal()">닫기</button>
+        <button class="btn-action btn-primary" onclick="registerEvent()">참가 신청</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Event Data
+    const eventDetails = {
+      'ces-2026': {
+        type: 'exhibition',
+        title: 'CES 2026 - 에어택시 & eVTOL 전시',
+        date: '2026년 1월 6일 - 9일',
+        location: 'Las Vegas Convention Center, USA',
+        organizer: 'CTA (Consumer Technology Association)',
+        website: 'https://www.ces.tech/',
+        description: '세계 최대 소비자 가전 박람회 CES 2026에서는 상용 서비스 개시를 앞둔 UAM 기업들의 완성형 기체와 서비스 플랫폼이 공개될 예정입니다. Joby, Archer, 현대차 슈퍼널 등 주요 기업들의 상용화 전략 발표가 예정되어 있습니다.',
+        program: ['eVTOL 상용 기체 공개', '에어택시 서비스 플랫폼 시연', 'UAM 인프라 솔루션', '자율비행 기술 시연', '투자자 세션']
+      },
+      'singapore-airshow-2026': {
+        type: 'exhibition',
+        title: 'Singapore Airshow 2026',
+        date: '2026년 2월 10일 - 15일',
+        location: 'Changi Exhibition Centre, Singapore',
+        organizer: 'Experia Events',
+        website: 'https://www.singaporeairshow.com/',
+        description: '아시아 최대 항공우주 전시회로 2026년 상용 서비스 개시를 앞둔 eVTOL 기체들의 전시와 아시아 태평양 지역 UAM 시장 진출 전략이 논의될 예정입니다.',
+        program: ['eVTOL 상용 기체 전시', '아시아 UAM 시장 포럼', 'B2B 비즈니스 미팅', '비행 시연', '규제 정책 세션']
+      },
+      'paris-airshow': {
+        type: 'exhibition',
+        title: 'Paris Air Show 2025 (파리 에어쇼)',
+        date: '2025년 6월 16일 - 22일',
+        location: 'Le Bourget Airport, Paris, France',
+        organizer: 'SIAE (Salon International de l\'Aéronautique et de l\'Espace)',
+        website: 'https://www.siae.fr/',
+        description: '세계 최대 항공우주 박람회인 파리 에어쇼는 1909년부터 시작된 역사와 전통을 자랑합니다. 2025년에는 eVTOL 및 AAM(Advanced Air Mobility) 분야가 특별 전시관으로 구성되어, Joby Aviation, Lilium, Archer, EHang 등 주요 UAM 기업들의 최신 기체와 기술을 직접 확인할 수 있습니다.',
+        program: ['eVTOL/AAM 특별 전시관', '비행 시연 프로그램', 'B2B 비즈니스 미팅', '기술 컨퍼런스', '스타트업 피칭 세션']
+      },
+      'uam-safety-1': {
+        type: 'seminar',
+        title: '제1차 UAM 안전·인증 기술 연속 세미나',
+        date: '2025년 7월 31일',
+        location: '국립항공박물관 대강당, 서울 강서구',
+        organizer: 'UAM 국가전략기술사업단, 항공안전기술원, 한국항공대학교',
+        website: 'https://www.kiast.or.kr/',
+        description: 'UAM 국가전략기술사업단에서 주관하는 안전·인증 기술 연속 세미나의 첫 번째 행사입니다. eVTOL 기체의 형식증명(Type Certification), 감항인증, 운항안전 기준 등 UAM 상용화에 필수적인 안전·인증 분야의 최신 연구 성과와 정책 동향을 공유합니다.',
+        program: ['eVTOL 형식증명 절차 및 기준', '배터리 안전성 인증 요건', 'UTM(UAM Traffic Management) 기술 동향', '해외 인증 사례 분석', '패널 토론: K-UAM 인증 로드맵']
+      },
+      'sase-2025': {
+        type: 'conference',
+        title: '제3차 UAM 안전·인증기술 연속 세미나',
+        date: '2025년 9월 18일',
+        location: '휘닉스 아일랜드 제주 아일랜드볼룸 III',
+        organizer: '항공우주시스템공학회, UAM 국가전략기술사업단',
+        website: 'https://sase.or.kr/',
+        description: '항공우주시스템공학회 추계학술대회와 함께 개최되는 제3차 UAM 안전·인증기술 세미나입니다. 항공 AI 안전기술 동향, eVTOL 프로펠러 인증 기준 연구 등 최신 연구 성과가 발표됩니다.',
+        program: ['항공 AI 안전기술 동향', 'eVTOL 프로펠러 인증 기준 연구', '자율비행시스템 안전성 분석', '학술 논문 발표', '네트워킹 세션']
+      },
+      'adex-2025': {
+        type: 'exhibition',
+        title: '서울 ADEX 2025',
+        date: '2025년 10월 21일 - 26일',
+        location: '서울공항, 경기도 성남시',
+        organizer: '국방부, 산업통상자원부, 경기도',
+        website: 'https://www.seouladex.com/',
+        description: '아시아 최대 규모의 항공우주 및 방위산업 전시회입니다. 2025년에는 UAM/AAM 특별관이 신설되어 한국항공우주산업(KAI), 현대차 슈퍼널, 한화시스템 등 국내 UAM 기업들의 기체와 기술을 전시합니다. 실제 비행 시연도 계획되어 있습니다.',
+        program: ['UAM/AAM 특별관', 'eVTOL 비행 시연', '국내외 방산업체 전시', '에어쇼 프로그램', '국제 포럼 및 세미나']
+      },
+      'comotion-2025': {
+        type: 'summit',
+        title: 'CoMotion LA 2025',
+        date: '2025년 11월 12일 - 14일',
+        location: 'Los Angeles Convention Center, USA',
+        organizer: 'CoMotion',
+        website: 'https://comotionla.com/',
+        description: '미래 모빌리티와 AAM(Advanced Air Mobility) 분야의 글로벌 리더들이 모이는 북미 최대 규모의 모빌리티 서밋입니다. 자율주행, 전기차, 에어택시 등 다양한 모빌리티 혁신 기술과 비즈니스 모델이 논의됩니다.',
+        program: ['AAM 기조연설', '투자자 매칭 세션', '스타트업 데모데이', '정책 라운드테이블', '네트워킹 리셉션']
+      },
+      'ces-2025': {
+        type: 'exhibition',
+        title: 'CES 2025 - 에어택시 & eVTOL 전시',
+        date: '2025년 1월 7일 - 10일',
+        location: 'Las Vegas Convention Center, USA',
+        organizer: 'CTA (Consumer Technology Association)',
+        website: 'https://www.ces.tech/',
+        description: '세계 최대 소비자 가전 박람회 CES에서 에어택시와 eVTOL 기술이 주요 전시 분야로 부상했습니다. 현대차 슈퍼널의 실물 크기 기체, 조비 에비에이션의 최신 모델 등이 전시되어 미래 모빌리티의 비전을 제시합니다.',
+        program: ['현대차 슈퍼널 S-A2 전시', 'Joby Aviation 기체 공개', '모빌리티 기조연설', 'AAM 패널 토론', '기술 시연']
+      },
+      'kuam-2025': {
+        type: 'conference',
+        title: '2025 K-UAM 산업발전 컨퍼런스',
+        date: '2025년 8월 25일 - 27일',
+        location: '인천 송도컨벤시아',
+        organizer: '국토교통부, 인천광역시, 한국교통연구원',
+        website: 'https://www.molit.go.kr/',
+        description: 'K-UAM 그랜드 챌린지 성과 발표, 상용화 로드맵 업데이트, 버티포트 인프라 구축 현황 등 한국 UAM 산업 전반을 조망하는 종합 컨퍼런스입니다. 정부, 기업, 연구기관이 함께 모여 K-UAM의 미래를 논의합니다.',
+        program: ['K-UAM 그랜드 챌린지 성과 발표', '2030 상용화 로드맵', '버티포트 인프라 구축 현황', '기업 사업 계획 발표', '국제 협력 세션']
+      },
+      'kuam-intl-2025': {
+        type: 'conference',
+        title: '2025 K-UAM 국제 콘퍼런스',
+        date: '2025년 11월 19일',
+        location: '인천 송도 컨벤시아',
+        organizer: '국토교통부, 항공안전기술원',
+        website: 'https://www.molit.go.kr/',
+        description: '역대 최대 규모의 K-UAM 국제 콘퍼런스로, 영국 교통부, 미국 연방항공국(FAA), 캐나다 항공혁신연구기관(CRIAQ), 네덜란드 항공우주센터(NLR) 등 7개국 10개 이상의 유관기관과 단체가 참여했습니다. K-UAM 상용화를 위한 국제 협력 방안과 기술 표준화 논의가 진행되었습니다.',
+        program: ['FAA eVTOL 인증 현황 발표', '영국 UAM 정책 동향', '국제 표준화 협력 세션', 'K-UAM 상용화 로드맵', '글로벌 UAM 기업 사례 발표', '정책 라운드테이블']
+      },
+      'droneshow-2025': {
+        type: 'exhibition',
+        title: '드론쇼코리아 2025',
+        date: '2025년 2월 19일 - 21일',
+        location: '부산 BEXCO',
+        organizer: '산업통상자원부, 부산광역시',
+        website: 'https://www.droneshow.co.kr/',
+        description: '국내 최대 드론 및 UAM 전문 전시회로, 최신 eVTOL 기체 전시와 드론 비행 시연이 진행됩니다. 산업용 드론, 배송 드론, UAM 관련 기술 및 서비스를 한자리에서 만나볼 수 있습니다.',
+        program: ['UAM 특별관', '드론 비행 시연', '산업용 드론 전시', '드론 레이싱', '기술 컨퍼런스']
+      },
+      'singapore-airshow-2025': {
+        type: 'exhibition',
+        title: 'Singapore Airshow 2025',
+        date: '2025년 2월 11일 - 16일',
+        location: 'Changi Exhibition Centre, Singapore',
+        organizer: 'Experia Events',
+        website: 'https://www.singaporeairshow.com/',
+        description: '아시아 최대 항공우주 전시회로, AAM/UAM 특별관이 신설되어 Archer, Volocopter, EHang 등 글로벌 eVTOL 기업들의 최신 기체가 전시됩니다. 아시아 태평양 지역 항공 산업 트렌드를 파악할 수 있는 주요 행사입니다.',
+        program: ['AAM/UAM 특별관', 'eVTOL 기체 전시', '비행 시연', 'B2B 비즈니스 미팅', '기술 컨퍼런스']
+      },
+      'hai-heliexpo-2025': {
+        type: 'exhibition',
+        title: 'HAI Heli-Expo 2025',
+        date: '2025년 3월 3일 - 6일',
+        location: 'Dallas, Texas, USA',
+        organizer: 'HAI (Helicopter Association International)',
+        website: 'https://heliexpo.com/',
+        description: '세계 최대 헬리콥터 및 회전익 항공기 전시회로, 최근 eVTOL 및 AAM 분야가 핵심 주제로 부상했습니다. 전통적인 헬리콥터 제조사들의 AAM 전략과 신규 eVTOL 스타트업들의 기체를 함께 만나볼 수 있습니다.',
+        program: ['eVTOL 전시관', '헬리콥터 전시', 'AAM 패널 토론', '비행 시연', '기술 세미나']
+      },
+      'auvsi-2025': {
+        type: 'conference',
+        title: 'AUVSI XPONENTIAL 2025',
+        date: '2025년 4월 28일 - 30일',
+        location: 'Houston, Texas, USA',
+        organizer: 'AUVSI (무인시스템국제협회)',
+        website: 'https://www.xponential.org/',
+        description: '세계 최대 무인시스템 및 자율기술 컨퍼런스로, AAM/UAM 트랙이 주요 세션으로 운영됩니다. 드론, 자율주행, eVTOL 등 자율 시스템 분야의 최신 기술과 정책 동향을 파악할 수 있습니다.',
+        program: ['AAM/UAM 트랙 세션', '자율비행 기술 발표', 'UTM 정책 토론', '데모 비행', '네트워킹 이벤트']
+      },
+      'nbaa-bace-2025': {
+        type: 'exhibition',
+        title: 'NBAA-BACE 2025',
+        date: '2025년 10월 14일 - 16일',
+        location: 'Las Vegas, Nevada, USA',
+        organizer: 'NBAA (National Business Aviation Association)',
+        website: 'https://nbaa.org/events/nbaa-bace/',
+        description: '북미 최대 비즈니스 항공 전시회로, 비즈니스 제트기부터 eVTOL/AAM까지 다양한 항공기와 서비스가 전시됩니다. AAM 분야가 핵심 주제로 다뤄지며, 주요 eVTOL 기업들의 상용화 계획이 발표됩니다.',
+        program: ['AAM 전시관', 'eVTOL 상용화 세션', '비즈니스 항공기 전시', '비행 시연', '투자자 세션']
+      },
+      'kuam-grand-challenge': {
+        type: 'exhibition',
+        title: 'K-UAM 그랜드 챌린지 2025',
+        date: '2025년 9월 (예정)',
+        location: '전남 고흥 국가종합비행성능시험장',
+        organizer: '국토교통부, 한국교통안전공단',
+        website: 'https://www.molit.go.kr/',
+        description: 'K-UAM 상용화를 위한 실증 사업으로, 국내외 eVTOL 기체의 실제 비행 시연과 운항 검증이 진행됩니다. 2025년에는 유인 비행 시연도 포함될 예정입니다.',
+        program: ['eVTOL 비행 시연', '유인 비행 테스트', '버티포트 운영 시연', '교통관리시스템 검증', '안전성 평가']
+      },
+      'ksas-spring-2025': {
+        type: 'conference',
+        title: '한국항공우주학회 춘계학술대회 2025',
+        date: '2025년 4월 16일 - 18일',
+        location: '제주 국제컨벤션센터',
+        organizer: '한국항공우주학회',
+        website: 'https://www.ksas.or.kr/',
+        description: 'UAM/eVTOL 관련 최신 연구 논문 발표 및 기술 세션이 진행되는 국내 최대 항공우주 학술대회입니다. 대학, 연구소, 기업의 연구자들이 참여하여 최신 연구 성과를 공유합니다.',
+        program: ['UAM 세션', 'eVTOL 기술 발표', '항공역학 세션', '추진시스템 세션', '항법/제어 세션', '학생 논문 발표']
+      }
+    };
+
+    // Filter functionality
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const yearFilter = document.getElementById('yearFilter');
+    const searchInput = document.getElementById('searchInput');
+
+    function filterEvents() {
+      // Re-query event cards each time to include dynamically added cards
+      const eventCards = document.querySelectorAll('.event-card');
+      const activeFilter = document.querySelector('.filter-btn.active').dataset.filter;
+      const selectedYear = yearFilter.value;
+      const searchTerm = searchInput.value.toLowerCase();
+
+      eventCards.forEach(card => {
+        const type = card.dataset.type;
+        const year = card.dataset.year;
+        const text = card.textContent.toLowerCase();
+
+        const typeMatch = activeFilter === 'all' || type === activeFilter;
+        const yearMatch = selectedYear === 'all' || year === selectedYear;
+        const searchMatch = searchTerm === '' || text.includes(searchTerm);
+
+        if (typeMatch && yearMatch && searchMatch) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      updateStats();
+    }
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        filterEvents();
+      });
+    });
+
+    yearFilter.addEventListener('change', filterEvents);
+    searchInput.addEventListener('input', filterEvents);
+
+    // Update statistics
+    function updateStats() {
+      const visibleCards = document.querySelectorAll('.event-card[style*="block"], .event-card:not([style])');
+      let total = 0;
+      let upcoming = 0;
+      const countries = new Set();
+
+      visibleCards.forEach(card => {
+        if (card.style.display !== 'none') {
+          total++;
+          if (card.querySelector('.status-indicator.upcoming')) {
+            upcoming++;
+          }
+          if (card.dataset.region === 'international') {
+            countries.add(card.querySelector('.event-meta-item span:last-child').textContent);
+          } else {
+            countries.add('Korea');
+          }
+        }
+      });
+
+      document.getElementById('totalEvents').textContent = total;
+      document.getElementById('upcomingEvents').textContent = upcoming;
+      document.getElementById('countries').textContent = Math.min(countries.size, 8);
+    }
+
+    // View toggle
+    const viewBtns = document.querySelectorAll('.view-btn');
+    const eventsGrid = document.getElementById('eventsGrid');
+    const calendarView = document.getElementById('calendarView');
+
+    viewBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        viewBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        if (btn.dataset.view === 'calendar') {
+          eventsGrid.style.display = 'none';
+          calendarView.classList.add('active');
+          generateCalendar();
+        } else {
+          eventsGrid.style.display = 'grid';
+          calendarView.classList.remove('active');
+        }
+      });
+    });
+
+    // Calendar functionality
+    let currentDate = new Date(2025, 0, 1);
+
+    function generateCalendar() {
+      const grid = document.getElementById('calendarGrid');
+      const title = document.getElementById('calendarTitle');
+      
+      const year = currentDate.getFullYear();
+      const month = currentDate.getMonth();
+      
+      title.textContent = `${year}년 ${month + 1}월`;
+      
+      const firstDay = new Date(year, month, 1).getDay();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      
+      const days = ['일', '월', '화', '수', '목', '금', '토'];
+      
+      let html = days.map(d => `<div class="calendar-day-header">${d}</div>`).join('');
+      
+      // Empty cells before first day
+      for (let i = 0; i < firstDay; i++) {
+        html += '<div class="calendar-day other-month"></div>';
+      }
+      
+      // Days of the month
+      const eventDays = [7, 8, 9, 10, 15, 31]; // Example event days
+      const today = new Date();
+      
+      for (let day = 1; day <= daysInMonth; day++) {
+        const isToday = today.getDate() === day && today.getMonth() === month && today.getFullYear() === year;
+        const hasEvent = eventDays.includes(day);
+        
+        html += `<div class="calendar-day ${isToday ? 'today' : ''} ${hasEvent ? 'has-event' : ''}">${day}</div>`;
+      }
+      
+      grid.innerHTML = html;
+    }
+
+    function changeMonth(delta) {
+      currentDate.setMonth(currentDate.getMonth() + delta);
+      generateCalendar();
+    }
+
+    // Modal functionality
+    function openEventDetail(eventId) {
+      const event = eventDetails[eventId];
+      if (!event) {
+        alert('상세 정보가 준비 중입니다.');
+        return;
+      }
+
+      document.getElementById('modalTitle').textContent = event.title;
+      document.getElementById('modalDate').textContent = event.date;
+      document.getElementById('modalLocation').textContent = event.location;
+      document.getElementById('modalOrganizer').textContent = event.organizer;
+      document.getElementById('modalWebsite').href = event.website;
+      document.getElementById('modalDescription').textContent = event.description;
+      
+      const badge = document.getElementById('modalBadge');
+      badge.className = `event-type-badge ${event.type}`;
+      badge.textContent = {
+        'conference': '컨퍼런스',
+        'seminar': '세미나',
+        'exhibition': '전시회',
+        'summit': '서밋',
+        'workshop': '워크숍'
+      }[event.type];
+
+      const programList = document.getElementById('modalProgram');
+      programList.innerHTML = event.program.map(p => `<li>${p}</li>`).join('');
+
+      document.getElementById('eventModal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeModal() {
+      document.getElementById('eventModal').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    // Close modal on outside click
+    document.getElementById('eventModal').addEventListener('click', (e) => {
+      if (e.target.classList.contains('modal-overlay')) {
+        closeModal();
+      }
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeModal();
+      }
+    });
+
+    // Add to calendar
+    function addToCalendar(btn) {
+      const card = btn.closest('.event-card');
+      const title = card.querySelector('.event-title').textContent;
+      const location = card.querySelector('.event-meta-item span:last-child').textContent;
+      
+      alert(`📅 "${title}" 일정이 캘린더에 추가되었습니다.\n\n(실제 구현 시 Google Calendar / Apple Calendar 연동)`);
+    }
+
+    // Register for event
+    function registerEvent() {
+      const title = document.getElementById('modalTitle').textContent;
+      alert(`✅ "${title}" 참가 신청이 완료되었습니다.\n\n(실제 구현 시 등록 페이지로 이동)`);
+      closeModal();
+    }
+
+    // Newsletter subscription
+    function subscribeNewsletter(e) {
+      e.preventDefault();
+      const email = e.target.querySelector('input').value;
+      alert(`📬 ${email}로 UAM 행사 소식을 보내드리겠습니다!\n\n구독해 주셔서 감사합니다.`);
+      e.target.reset();
+    }
+
+    // Refresh Events Function
+    async function refreshEvents() {
+      const refreshBtn = document.getElementById('refreshBtn');
+      refreshBtn.classList.add('loading');
+      
+      // Show loading toast
+      showToast('info', '갱신 중...', 'UAM 행사 정보를 검색하고 있습니다.');
+      
+      // Simulate API call delay
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // Update last updated date
+      const now = new Date();
+      const dateStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+      document.getElementById('lastUpdated').textContent = dateStr;
+      
+      // Remove loading state
+      refreshBtn.classList.remove('loading');
+      
+      // Check for new events (simulation)
+      const newEventsFound = checkForNewEvents();
+      
+      if (newEventsFound > 0) {
+        showToast('success', '갱신 완료!', `${newEventsFound}개의 새로운 행사 정보가 발견되었습니다.`);
+        highlightNewEvents();
+      } else {
+        showToast('success', '갱신 완료!', '행사 정보가 최신 상태입니다.');
+      }
+      
+      // Re-initialize event cards
+      reinitializeEventCards();
+      updateStats();
+    }
+
+    // Check for new events (simulation)
+    function checkForNewEvents() {
+      // In a real implementation, this would compare with server data
+      const newBadges = document.querySelectorAll('.new-badge');
+      return newBadges.length;
+    }
+
+    // Highlight new events
+    function highlightNewEvents() {
+      const newCards = document.querySelectorAll('.event-card:has(.new-badge)');
+      newCards.forEach(card => {
+        card.style.animation = 'none';
+        card.offsetHeight; // Trigger reflow
+        card.style.animation = 'highlightNew 1s ease';
+      });
+    }
+
+    // Reinitialize event cards after DOM changes
+    function reinitializeEventCards() {
+      // Re-query event cards
+      const cards = document.querySelectorAll('.event-card');
+      cards.forEach((card, index) => {
+        card.style.animationDelay = `${0.1 * (index % 6)}s`;
+      });
+    }
+
+    // Toast Notification System
+    function showToast(type, title, message) {
+      // Remove existing toast
+      const existingToast = document.querySelector('.toast');
+      if (existingToast) {
+        existingToast.remove();
+      }
+      
+      // Create toast element
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.innerHTML = `
+        <span class="toast-icon">${type === 'success' ? '✅' : 'ℹ️'}</span>
+        <div class="toast-content">
+          <div class="toast-title">${title}</div>
+          <div class="toast-message">${message}</div>
+        </div>
+      `;
+      
+      document.body.appendChild(toast);
+      
+      // Show toast with animation
+      setTimeout(() => toast.classList.add('show'), 10);
+      
+      // Auto hide after 4 seconds
+      setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 400);
+      }, 4000);
+    }
+
+    // Add highlight animation
+    const styleSheet = document.createElement('style');
+    styleSheet.textContent = `
+      @keyframes highlightNew {
+        0%, 100% { box-shadow: 0 4px 20px rgba(0,0,0,0.08); }
+        50% { box-shadow: 0 0 30px rgba(0, 200, 83, 0.5); }
+      }
+    `;
+    document.head.appendChild(styleSheet);
+
+    // Auto-refresh reminder (every 30 minutes)
+    setInterval(() => {
+      const lastUpdated = document.getElementById('lastUpdated').textContent;
+      const lastDate = new Date(lastUpdated.replace(/-/g, '/'));
+      const now = new Date();
+      const diffMinutes = (now - lastDate) / (1000 * 60);
+      
+      if (diffMinutes > 30) {
+        showToast('info', '업데이트 알림', '새로운 행사 정보가 있을 수 있습니다. 갱신 버튼을 눌러 확인하세요.');
+      }
+    }, 30 * 60 * 1000);
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      // Set initial last updated date
+      const now = new Date();
+      const dateStr = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+      document.getElementById('lastUpdated').textContent = dateStr;
+      
+      updateStats();
+      filterEvents();
+    });
+  </script>
+</body>
+</html>
+
